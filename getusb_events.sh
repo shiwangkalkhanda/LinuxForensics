@@ -151,8 +151,7 @@ for ((i=0; i<$(echo ${#START_TIME[@]}); i++))
 do
 	touch -t "${START_TIME[i]}" /tmp/start 
 	touch -t "${END_TIME[i]}" /tmp/stop
-	#find /root /var/ /tmp /etc -newer /tmp/start -not -newer /tmp/stop -type f >usb/$(echo ${START_TIME[i]}_${END_TIME[i]}| sed 's/\.//g')
-	#find / -newer /tmp/start -not -newer /tmp/stop -type f -printf "%M %u %g %TT %Td %Tm %TY %p\n" | sort -k 7 -n -k 6 -k 5 -n >usb/$(echo ${START_TIME[i]}_${END_TIME[i]}| sed 's/\.//g') 2>/dev/null
+	
 	find $mlocation -type f ! -path "${mlocation}proc/*" ! -path "${mlocation}sys/*" ! -path "*mozilla*"  -newer /tmp/start -not -newer /tmp/stop -printf "%M %u %g %TT %Td %Tm %TY %p\n" 2>/dev/null | sort -nk 7 -nk 6 -nk 5 -k 4 >${USB_PATH}/$(echo ${START_TIME[i]}_${END_TIME[i]}| sed 's/\.//g') 2>/dev/null
 
 done
